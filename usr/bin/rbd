@@ -7,35 +7,35 @@ if [ ! -r /etc/rbdnoceph.conf ] ; then
 	exit 1
 fi
 
-if [ ${1} != "map" ] ; then
+if [ "${1}" != "map" ] ; then
 	echo "We only know how to map rbd volumes, the first argument must be map!"
 	exit 1
 fi
 
-if [ -z ${2} ] ; then
+if [ -z "${2}" ] ; then
 	echo "You must specify an rbd name as argument two!"
 	exit 1
 fi
 
-if [ ${3} != "--pool" ] ; then
+if [ "${3}" != "--pool" ] ; then
 	echo "We need a pool name and the third argument must therefore be --pool"
 	exit 1
 fi
 
-if [ -z ${4} ] ; then
+if [ -z "${4}" ] ; then
 	echo "You must specify an rbd pool as argument four!"
 	exit 1
 fi
 
-prefix=`cat /etc/rbdnoceph.conf`
+prefix=$(cat /etc/rbdnoceph.conf)
 
-if [ -z ${prefix} ] ; then
+if [ -z "${prefix}" ] ; then
 	echo "You must specify a connection prefix in /etc/rbdnoceph.conf"
 	exit 1
 fi
 
 if [ -w /sys/bus/rbd/add_single_major ] ; then
-	echo "${prefix} ${4} ${1}" > /sys/bus/rbd/add_single_major
+	echo "${prefix} ${4} ${2}" > /sys/bus/rbd/add_single_major
 else
-	echo "${prefix} ${4} ${1}" > /sys/bus/rbd/add
+	echo "${prefix} ${4} ${2}" > /sys/bus/rbd/add
 fi
